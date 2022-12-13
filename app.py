@@ -13,7 +13,14 @@ connect_db(app)
 
 app.config['SECRET_KEY'] = "I'LL NEVER TELL!!"
 
+DEFAULT_IMAGE_URL = "https://tinyurl.com/demo-cupcake"
+
 # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+@app.get("/")
+def cupcakes():
+
+    return render_template("cupcakes.html")
 
 @app.get("/api/cupcakes")
 def get_all_cupcakes():
@@ -51,8 +58,7 @@ def create_cupcake():
     flavor = request.json["flavor"]
     size = request.json["size"]
     rating = request.json["rating"]
-    image = request.json.get("image", None)
-
+    image = request.json["image"] or None
 
     new_cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image=image)
 
